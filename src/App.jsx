@@ -1,6 +1,17 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { playoffRounds, players } from "./data/playoffs";
+
+const RESULTS_STORAGE_KEY = "nba-playoffs-bets:results";
+
+const getSavedResults = () => {
+  try {
+    const savedResults = window.localStorage.getItem(RESULTS_STORAGE_KEY);
+    return savedResults ? JSON.parse(savedResults) : {};
+  } catch {
+    return {};
+  }
+};
 
 const getPickLabel = (pick) => (pick ? `${pick.winner} ${pick.games}` : "-");
 
@@ -345,9 +356,13 @@ function RoundPanel({ round, results, onResultChange }) {
 
 function App() {
   const [activeRound, setActiveRound] = useState("round1");
-  const [results, setResults] = useState({});
+  const [results, setResults] = useState(getSavedResults);
   const firstRound = playoffRounds[0];
   const selectedRound = playoffRounds.find((round) => round.id === activeRound);
+
+  useEffect(() => {
+    window.localStorage.setItem(RESULTS_STORAGE_KEY, JSON.stringify(results));
+  }, [results]);
 
   const standings = useMemo(() => {
     return players
