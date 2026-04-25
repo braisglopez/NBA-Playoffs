@@ -245,6 +245,13 @@ select {
   border-radius: 50%;
 }
 
+.logo-slot img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
 .shield-slot {
   border-radius: 4px 4px 8px 8px;
   transform: skew(-8deg);

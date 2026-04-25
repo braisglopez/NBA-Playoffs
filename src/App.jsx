@@ -54,7 +54,11 @@ const getPickStatus = (pick, result) => {
 function LogoSlot({ team }) {
   return (
     <span className="logo-slot" aria-label={`${team.city} ${team.name} logo`}>
-      {team.code.slice(0, 3)}
+      {team.logo ? (
+        <img src={team.logo} alt="" />
+      ) : (
+        team.code.slice(0, 3)
+      )}
     </span>
   );
 }
