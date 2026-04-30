@@ -322,6 +322,24 @@ select {
   padding: 7px 12px;
 }
 
+.pending-badge.loading {
+  background: #e7f0ff;
+  border-color: #9dbcf4;
+  color: #174b90;
+}
+
+.pending-badge.ready {
+  background: #e3f7eb;
+  border-color: #8bd1a6;
+  color: #17613a;
+}
+
+.pending-badge.error {
+  background: #ffe8e8;
+  border-color: #e49a9a;
+  color: #8a2020;
+}
+
 .standings-grid {
   display: grid;
   gap: 10px;
@@ -508,6 +526,12 @@ select {
   font-weight: 800;
   min-height: 38px;
   padding: 0 10px;
+}
+
+.result-select select:disabled {
+  background: #eef2f6;
+  color: #596575;
+  cursor: not-allowed;
 }
 
 .prediction-list {

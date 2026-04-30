@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { playoffRounds, players } from "./data/playoffs";
+import { fetchEspnSeriesUpdates } from "./services/espnPlayoffs";
 
 const RESULTS_STORAGE_KEY = "nba-playoffs-bets:results";
+const SERIES_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 const getSavedResults = () => {
   try {
@@ -49,6 +51,49 @@ const getPickStatus = (pick, result) => {
   }
 
   return pick.games === result.games ? "exact" : "winner";
+};
+
+const getApiResultsFromUpdates = (seriesUpdates) =>
+  Object.fromEntries(
+    Object.entries(seriesUpdates)
+      .filter(([, update]) => update.result)
+      .map(([seriesId, update]) => [seriesId, update.result])
+  );
+
+const applySeriesUpdates = (rounds, seriesUpdates) =>
+  rounds.map((round) => ({
+    ...round,
+    series: round.series.map((series) => ({
+      ...series,
+      status: seriesUpdates[series.id]?.status || series.status,
+    })),
+  }));
+
+const formatUpdatedAt = (updatedAt) => {
+  if (!updatedAt) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(updatedAt));
+};
+
+const getLiveStatusLabel = (liveStatus) => {
+  if (liveStatus.status === "ready") {
+    return `ESPN ${formatUpdatedAt(liveStatus.lastUpdated)}`;
+  }
+
+  if (liveStatus.status === "loading") {
+    return "Conectando con ESPN";
+  }
+
+  if (liveStatus.status === "error") {
+    return "ESPN no disponible";
+  }
+
+  return "Pendiente de ESPN";
 };
 
 function LogoSlot({ team }) {
@@ -177,7 +222,7 @@ function PlayoffBracket({ series }) {
   );
 }
 
-function Standings({ standings }) {
+function Standings({ standings, liveStatus }) {
   return (
     <section className="standings-section" aria-labelledby="standings-title">
       <div className="section-title-row">
@@ -185,7 +230,12 @@ function Standings({ standings }) {
           <p className="eyebrow">Clasificacion</p>
           <h2 id="standings-title">General actualizada</h2>
         </div>
-        <span className="pending-badge">Pendiente de resultados reales</span>
+        <span
+          className={`pending-badge ${liveStatus.status}`}
+          title={liveStatus.error || "Resultados desde ESPN"}
+        >
+          {getLiveStatusLabel(liveStatus)}
+        </span>
       </div>
 
       <div className="standings-grid">
@@ -223,11 +273,12 @@ function RoundTabs({ activeRound, onRoundChange }) {
   );
 }
 
-function ResultSelect({ series, value, onChange }) {
+function ResultSelect({ series, value, onChange, isAutoResult }) {
   return (
     <label className="result-select">
-      <span>Resultado real</span>
+      <span>{isAutoResult ? "Resultado ESPN" : "Resultado real"}</span>
       <select
+        disabled={isAutoResult}
         value={getResultValue(value)}
         onChange={(event) => onChange(series.id, parseResultValue(event.target.value))}
       >
@@ -278,7 +329,13 @@ function PredictionsTable({ round, results }) {
   );
 }
 
-function SeriesPredictionCard({ round, series, result, onResultChange }) {
+function SeriesPredictionCard({
+  round,
+  series,
+  result,
+  isAutoResult,
+  onResultChange,
+}) {
   return (
     <article className="prediction-card">
       <div className="prediction-card-header">
@@ -288,7 +345,12 @@ function SeriesPredictionCard({ round, series, result, onResultChange }) {
             {series.teams[0].code} vs {series.teams[1].code}
           </h3>
         </div>
-        <ResultSelect series={series} value={result} onChange={onResultChange} />
+        <ResultSelect
+          isAutoResult={isAutoResult}
+          series={series}
+          value={result}
+          onChange={onResultChange}
+        />
       </div>
 
       <div className="prediction-list">
@@ -324,7 +386,7 @@ function EmptyRound({ round }) {
   );
 }
 
-function RoundPanel({ round, results, onResultChange }) {
+function RoundPanel({ round, results, apiResults, onResultChange }) {
   if (round.series.length === 0) {
     return <EmptyRound round={round} />;
   }
@@ -347,6 +409,7 @@ function RoundPanel({ round, results, onResultChange }) {
         {round.series.map((series) => (
           <SeriesPredictionCard
             key={series.id}
+            isAutoResult={Boolean(apiResults[series.id])}
             round={round}
             series={series}
             result={results[series.id]}
@@ -360,13 +423,86 @@ function RoundPanel({ round, results, onResultChange }) {
 
 function App() {
   const [activeRound, setActiveRound] = useState("round1");
-  const [results, setResults] = useState(getSavedResults);
-  const firstRound = playoffRounds[0];
-  const selectedRound = playoffRounds.find((round) => round.id === activeRound);
+  const [manualResults, setManualResults] = useState(getSavedResults);
+  const [apiResults, setApiResults] = useState({});
+  const [seriesUpdates, setSeriesUpdates] = useState({});
+  const [liveStatus, setLiveStatus] = useState({
+    error: null,
+    lastUpdated: null,
+    status: "idle",
+  });
+  const roundsWithLiveSeries = useMemo(
+    () => applySeriesUpdates(playoffRounds, seriesUpdates),
+    [seriesUpdates]
+  );
+  const firstRound = roundsWithLiveSeries[0];
+  const selectedRound = roundsWithLiveSeries.find(
+    (round) => round.id === activeRound
+  );
+  const results = useMemo(
+    () => ({ ...manualResults, ...apiResults }),
+    [apiResults, manualResults]
+  );
 
   useEffect(() => {
-    window.localStorage.setItem(RESULTS_STORAGE_KEY, JSON.stringify(results));
-  }, [results]);
+    window.localStorage.setItem(
+      RESULTS_STORAGE_KEY,
+      JSON.stringify(manualResults)
+    );
+  }, [manualResults]);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadSeriesUpdates = async () => {
+      setLiveStatus((currentStatus) =>
+        currentStatus.lastUpdated
+          ? { ...currentStatus, error: null }
+          : { error: null, lastUpdated: null, status: "loading" }
+      );
+
+      try {
+        const allSeries = playoffRounds.flatMap((round) => round.series);
+        const updates = await fetchEspnSeriesUpdates(allSeries);
+
+        if (!isActive) {
+          return;
+        }
+
+        setSeriesUpdates(updates);
+        setApiResults(getApiResultsFromUpdates(updates));
+        setLiveStatus({
+          error: null,
+          lastUpdated: new Date().toISOString(),
+          status: "ready",
+        });
+      } catch (error) {
+        if (!isActive) {
+          return;
+        }
+
+        setLiveStatus((currentStatus) => ({
+          error:
+            error instanceof Error
+              ? error.message
+              : "No se pudieron cargar resultados de ESPN",
+          lastUpdated: currentStatus.lastUpdated,
+          status: "error",
+        }));
+      }
+    };
+
+    loadSeriesUpdates();
+    const refreshInterval = window.setInterval(
+      loadSeriesUpdates,
+      SERIES_REFRESH_INTERVAL_MS
+    );
+
+    return () => {
+      isActive = false;
+      window.clearInterval(refreshInterval);
+    };
+  }, []);
 
   const standings = useMemo(() => {
     return players
@@ -410,7 +546,7 @@ function App() {
   }, [results]);
 
   const handleResultChange = (seriesId, result) => {
-    setResults((currentResults) => {
+    setManualResults((currentResults) => {
       const nextResults = { ...currentResults };
 
       if (!result) {
@@ -426,9 +562,10 @@ function App() {
   return (
     <main className="app-shell">
       <PlayoffBracket series={firstRound.series} />
-      <Standings standings={standings} />
+      <Standings standings={standings} liveStatus={liveStatus} />
       <RoundTabs activeRound={activeRound} onRoundChange={setActiveRound} />
       <RoundPanel
+        apiResults={apiResults}
         round={selectedRound}
         results={results}
         onResultChange={handleResultChange}
