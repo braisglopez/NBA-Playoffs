@@ -15,6 +15,7 @@ const ESPN_TO_APP_TEAM_CODES = {
   NY: "NYK",
   ORL: "MAG",
   PHI: "76ERS",
+  PHX: "PHO",
   SA: "SAS",
 };
 

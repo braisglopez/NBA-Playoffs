@@ -5,6 +5,7 @@ import { fetchEspnSeriesUpdates } from "./services/espnPlayoffs";
 
 const RESULTS_STORAGE_KEY = "nba-playoffs-bets:results";
 const SERIES_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+const SERIES_PENDING_STATUS = "Game 1, Series tied 0-0";
 
 const getSavedResults = () => {
   try {
@@ -65,7 +66,7 @@ const applySeriesUpdates = (rounds, seriesUpdates) =>
     ...round,
     series: round.series.map((series) => ({
       ...series,
-      status: seriesUpdates[series.id]?.status || series.status,
+      status: seriesUpdates[series.id]?.status || SERIES_PENDING_STATUS,
     })),
   }));
 
