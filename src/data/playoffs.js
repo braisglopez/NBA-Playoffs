@@ -44,7 +44,13 @@ export const firstRoundSeries = [
     date: "Apr 25",
     channel: "NBC/Peacock",
     teams: [
-      { code: "OKC", seed: 1, city: "Oklahoma City", name: "Thunder", logo: okcLogo },
+      {
+        code: "OKC",
+        seed: 1,
+        city: "Oklahoma City",
+        name: "Thunder",
+        logo: okcLogo,
+      },
       { code: "PHO", seed: 8, city: "Phoenix", name: "Suns", logo: sunsLogo },
     ],
     picks: {
@@ -68,8 +74,20 @@ export const firstRoundSeries = [
     date: "Apr 25",
     channel: "Prime Video",
     teams: [
-      { code: "LAK", seed: 4, city: "Los Angeles", name: "Lakers", logo: lakersLogo },
-      { code: "HOU", seed: 5, city: "Houston", name: "Rockets", logo: rocketsLogo },
+      {
+        code: "LAK",
+        seed: 4,
+        city: "Los Angeles",
+        name: "Lakers",
+        logo: lakersLogo,
+      },
+      {
+        code: "HOU",
+        seed: 5,
+        city: "Houston",
+        name: "Rockets",
+        logo: rocketsLogo,
+      },
     ],
     picks: {
       calde: { winner: "HOU", games: 6 },
@@ -92,8 +110,20 @@ export const firstRoundSeries = [
     date: "Apr 26",
     channel: "ABC",
     teams: [
-      { code: "DEN", seed: 3, city: "Denver", name: "Nuggets", logo: denverLogo },
-      { code: "MIN", seed: 6, city: "Minnesota", name: "Timberwolves", logo: minnesotaLogo },
+      {
+        code: "DEN",
+        seed: 3,
+        city: "Denver",
+        name: "Nuggets",
+        logo: denverLogo,
+      },
+      {
+        code: "MIN",
+        seed: 6,
+        city: "Minnesota",
+        name: "Timberwolves",
+        logo: minnesotaLogo,
+      },
     ],
     picks: {
       calde: { winner: "DEN", games: 6 },
@@ -116,8 +146,20 @@ export const firstRoundSeries = [
     date: "Apr 25",
     channel: "Prime Video",
     teams: [
-      { code: "SAS", seed: 2, city: "San Antonio", name: "Spurs", logo: spursLogo },
-      { code: "POR", seed: 7, city: "Portland", name: "Trail Blazers", logo: portlandLogo },
+      {
+        code: "SAS",
+        seed: 2,
+        city: "San Antonio",
+        name: "Spurs",
+        logo: spursLogo,
+      },
+      {
+        code: "POR",
+        seed: 7,
+        city: "Portland",
+        name: "Trail Blazers",
+        logo: portlandLogo,
+      },
     ],
     picks: {
       calde: { winner: "SAS", games: 4 },
@@ -140,7 +182,13 @@ export const firstRoundSeries = [
     date: "Apr 25",
     channel: "Peacock/NBCSN",
     teams: [
-      { code: "DET", seed: 1, city: "Detroit", name: "Pistons", logo: pistonsLogo },
+      {
+        code: "DET",
+        seed: 1,
+        city: "Detroit",
+        name: "Pistons",
+        logo: pistonsLogo,
+      },
       { code: "MAG", seed: 8, city: "Orlando", name: "Magic", logo: magicLogo },
     ],
     picks: {
@@ -164,8 +212,20 @@ export const firstRoundSeries = [
     date: "Apr 26",
     channel: "ESPN",
     teams: [
-      { code: "CAVS", seed: 4, city: "Cleveland", name: "Cavaliers", logo: cavsLogo },
-      { code: "TOR", seed: 5, city: "Toronto", name: "Raptors", logo: raptorsLogo },
+      {
+        code: "CAVS",
+        seed: 4,
+        city: "Cleveland",
+        name: "Cavaliers",
+        logo: cavsLogo,
+      },
+      {
+        code: "TOR",
+        seed: 5,
+        city: "Toronto",
+        name: "Raptors",
+        logo: raptorsLogo,
+      },
     ],
     picks: {
       calde: { winner: "TOR", games: 7 },
@@ -188,7 +248,13 @@ export const firstRoundSeries = [
     date: "Apr 26",
     channel: "NBC/Peacock",
     teams: [
-      { code: "NYK", seed: 3, city: "New York", name: "Knicks", logo: knicksLogo },
+      {
+        code: "NYK",
+        seed: 3,
+        city: "New York",
+        name: "Knicks",
+        logo: knicksLogo,
+      },
       { code: "ATL", seed: 6, city: "Atlanta", name: "Hawks", logo: hawksLogo },
     ],
     picks: {
@@ -212,8 +278,20 @@ export const firstRoundSeries = [
     date: "Apr 25",
     channel: "Prime Video",
     teams: [
-      { code: "BOS", seed: 2, city: "Boston", name: "Celtics", logo: bostonLogo },
-      { code: "76ERS", seed: 7, city: "Philadelphia", name: "76ers", logo: sixersLogo },
+      {
+        code: "BOS",
+        seed: 2,
+        city: "Boston",
+        name: "Celtics",
+        logo: bostonLogo,
+      },
+      {
+        code: "76ERS",
+        seed: 7,
+        city: "Philadelphia",
+        name: "76ers",
+        logo: sixersLogo,
+      },
     ],
     picks: {
       calde: { winner: "BOS", games: 5 },
@@ -239,8 +317,20 @@ export const secondRoundSeries = [
     date: "May 5",
     channel: "Peacock/NBC",
     teams: [
-      { code: "OKC", seed: 1, city: "Oklahoma City", name: "Thunder", logo: okcLogo },
-      { code: "LAK", seed: 4, city: "Los Angeles", name: "Lakers", logo: lakersLogo },
+      {
+        code: "OKC",
+        seed: 1,
+        city: "Oklahoma City",
+        name: "Thunder",
+        logo: okcLogo,
+      },
+      {
+        code: "LAK",
+        seed: 4,
+        city: "Los Angeles",
+        name: "Lakers",
+        logo: lakersLogo,
+      },
     ],
     picks: {
       calde: { winner: "OKC", games: 4 },
@@ -263,8 +353,20 @@ export const secondRoundSeries = [
     date: "May 4",
     channel: "Peacock/NBCSN",
     teams: [
-      { code: "SAS", seed: 2, city: "San Antonio", name: "Spurs", logo: spursLogo },
-      { code: "MIN", seed: 6, city: "Minnesota", name: "Timberwolves", logo: minnesotaLogo },
+      {
+        code: "SAS",
+        seed: 2,
+        city: "San Antonio",
+        name: "Spurs",
+        logo: spursLogo,
+      },
+      {
+        code: "MIN",
+        seed: 6,
+        city: "Minnesota",
+        name: "Timberwolves",
+        logo: minnesotaLogo,
+      },
     ],
     picks: {
       calde: { winner: "SAS", games: 5 },
@@ -287,8 +389,20 @@ export const secondRoundSeries = [
     date: "May 5",
     channel: "Peacock/NBCSN",
     teams: [
-      { code: "DET", seed: 1, city: "Detroit", name: "Pistons", logo: pistonsLogo },
-      { code: "CAVS", seed: 4, city: "Cleveland", name: "Cavaliers", logo: cavsLogo },
+      {
+        code: "DET",
+        seed: 1,
+        city: "Detroit",
+        name: "Pistons",
+        logo: pistonsLogo,
+      },
+      {
+        code: "CAVS",
+        seed: 4,
+        city: "Cleveland",
+        name: "Cavaliers",
+        logo: cavsLogo,
+      },
     ],
     picks: {
       calde: { winner: "CAVS", games: 6 },
@@ -311,18 +425,30 @@ export const secondRoundSeries = [
     date: "May 4",
     channel: "NBC/Peacock",
     teams: [
-      { code: "NYK", seed: 3, city: "New York", name: "Knicks", logo: knicksLogo },
-      { code: "76ERS", seed: 7, city: "Philadelphia", name: "76ers", logo: sixersLogo },
+      {
+        code: "NYK",
+        seed: 3,
+        city: "New York",
+        name: "Knicks",
+        logo: knicksLogo,
+      },
+      {
+        code: "76ERS",
+        seed: 7,
+        city: "Philadelphia",
+        name: "76ers",
+        logo: sixersLogo,
+      },
     ],
     picks: {
       calde: { winner: "76ERS", games: 6 },
       brais: { winner: "NYK", games: 6 },
       isi: { winner: "NYK", games: 7 },
       "nico-grande": { winner: "NYK", games: 7 },
-      "nico-peque": { winner: "NYK", games: 5 },
-      lucas: { winner: "NYK", games: 6 },
-      alvaro: { winner: "76ERS", games: 6 },
-      rodri: { winner: "NYK", games: 6 },
+      "nico-peque": { winner: "NYK", games: 7 },
+      lucas: { winner: "NYK", games: 5 },
+      alvaro: { winner: "NYK", games: 6 },
+      rodri: { winner: "76ERS", games: 6 },
       jorge: { winner: "NYK", games: 6 },
     },
   },
