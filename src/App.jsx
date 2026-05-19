@@ -163,13 +163,23 @@ function FirstRoundColumn({ series, side }) {
   );
 }
 
-function PlayoffBracket({ firstRoundSeries, secondRoundSeries }) {
+function PlayoffBracket({
+  conferenceFinalsSeries,
+  firstRoundSeries,
+  secondRoundSeries,
+}) {
   const westSeries = firstRoundSeries.filter((item) => item.conference === "west");
   const eastSeries = firstRoundSeries.filter((item) => item.conference === "east");
   const westSemifinals = secondRoundSeries.filter(
     (item) => item.conference === "west"
   );
   const eastSemifinals = secondRoundSeries.filter(
+    (item) => item.conference === "east"
+  );
+  const westConferenceFinals = conferenceFinalsSeries.filter(
+    (item) => item.conference === "west"
+  );
+  const eastConferenceFinals = conferenceFinalsSeries.filter(
     (item) => item.conference === "east"
   );
 
@@ -208,7 +218,13 @@ function PlayoffBracket({ firstRoundSeries, secondRoundSeries }) {
           </div>
 
           <div className="round-column conference-column west">
-            <BracketPlaceholder side="west" />
+            {westConferenceFinals.length > 0 ? (
+              westConferenceFinals.map((series) => (
+                <BracketSeriesCard key={series.id} series={series} side="west" />
+              ))
+            ) : (
+              <BracketPlaceholder side="west" />
+            )}
           </div>
 
           <article className="championship-card">
@@ -222,7 +238,13 @@ function PlayoffBracket({ firstRoundSeries, secondRoundSeries }) {
           </article>
 
           <div className="round-column conference-column east">
-            <BracketPlaceholder side="east" />
+            {eastConferenceFinals.length > 0 ? (
+              eastConferenceFinals.map((series) => (
+                <BracketSeriesCard key={series.id} series={series} side="east" />
+              ))
+            ) : (
+              <BracketPlaceholder side="east" />
+            )}
           </div>
 
           <div className="round-column semi-column east">
@@ -460,6 +482,7 @@ function App() {
   );
   const firstRound = roundsWithLiveSeries[0];
   const secondRound = roundsWithLiveSeries[1];
+  const conferenceFinals = roundsWithLiveSeries[2];
   const selectedRound = roundsWithLiveSeries.find(
     (round) => round.id === activeRound
   );
@@ -586,6 +609,7 @@ function App() {
   return (
     <main className="app-shell">
       <PlayoffBracket
+        conferenceFinalsSeries={conferenceFinals.series}
         firstRoundSeries={firstRound.series}
         secondRoundSeries={secondRound.series}
       />

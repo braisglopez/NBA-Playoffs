@@ -454,6 +454,81 @@ export const secondRoundSeries = [
   },
 ];
 
+export const conferenceFinalsSeries = [
+  {
+    id: "okc-sas",
+    conference: "west",
+    label: "OKC-SAS",
+    status: "Game 1, Series tied 0-0",
+    line: "TBD",
+    date: "TBD",
+    channel: "TBD",
+    teams: [
+      {
+        code: "OKC",
+        seed: 1,
+        city: "Oklahoma City",
+        name: "Thunder",
+        logo: okcLogo,
+      },
+      {
+        code: "SAS",
+        seed: 2,
+        city: "San Antonio",
+        name: "Spurs",
+        logo: spursLogo,
+      },
+    ],
+    picks: {
+      calde: { winner: "OKC", games: 6 },
+      brais: { winner: "OKC", games: 7 },
+      isi: { winner: "SAS", games: 7 },
+      "nico-grande": { winner: "OKC", games: 6 },
+      "nico-peque": { winner: "SAS", games: 6 },
+      lucas: { winner: "OKC", games: 7 },
+      alvaro: { winner: "OKC", games: 6 },
+      rodri: { winner: "SAS", games: 6 },
+      jorge: { winner: "SAS", games: 6 },
+    },
+  },
+  {
+    id: "cavs-nyk",
+    conference: "east",
+    label: "CAVS-NYK",
+    status: "Game 1, Series tied 0-0",
+    line: "TBD",
+    date: "TBD",
+    channel: "TBD",
+    teams: [
+      {
+        code: "CAVS",
+        seed: 4,
+        city: "Cleveland",
+        name: "Cavaliers",
+        logo: cavsLogo,
+      },
+      {
+        code: "NYK",
+        seed: 3,
+        city: "New York",
+        name: "Knicks",
+        logo: knicksLogo,
+      },
+    ],
+    picks: {
+      calde: { winner: "CAVS", games: 7 },
+      brais: { winner: "NYK", games: 5 },
+      isi: { winner: "CAVS", games: 7 },
+      "nico-grande": { winner: "NYK", games: 7 },
+      "nico-peque": { winner: "NYK", games: 6 },
+      lucas: { winner: "NYK", games: 5 },
+      alvaro: { winner: "NYK", games: 5 },
+      rodri: { winner: "NYK", games: 5 },
+      jorge: { winner: "NYK", games: 5 },
+    },
+  },
+];
+
 export const playoffRounds = [
   {
     id: "round1",
@@ -474,7 +549,7 @@ export const playoffRounds = [
     label: "Conf. Finals",
     shortLabel: "CF",
     scoring: scoringRules.conferenceFinals,
-    series: [],
+    series: conferenceFinalsSeries,
   },
   {
     id: "nbaFinals",
