@@ -480,9 +480,11 @@ function App() {
     () => applySeriesUpdates(playoffRounds, seriesUpdates),
     [seriesUpdates]
   );
-  const firstRound = roundsWithLiveSeries[0];
-  const secondRound = roundsWithLiveSeries[1];
-  const conferenceFinals = roundsWithLiveSeries[2];
+  const firstRound = roundsWithLiveSeries.find((round) => round.id === "round1");
+  const secondRound = roundsWithLiveSeries.find((round) => round.id === "round2");
+  const conferenceFinals = roundsWithLiveSeries.find(
+    (round) => round.id === "conferenceFinals"
+  );
   const selectedRound = roundsWithLiveSeries.find(
     (round) => round.id === activeRound
   );
@@ -609,9 +611,9 @@ function App() {
   return (
     <main className="app-shell">
       <PlayoffBracket
-        conferenceFinalsSeries={conferenceFinals.series}
-        firstRoundSeries={firstRound.series}
-        secondRoundSeries={secondRound.series}
+        conferenceFinalsSeries={conferenceFinals?.series ?? []}
+        firstRoundSeries={firstRound?.series ?? []}
+        secondRoundSeries={secondRound?.series ?? []}
       />
       <Standings standings={standings} liveStatus={liveStatus} />
       <RoundTabs activeRound={activeRound} onRoundChange={setActiveRound} />
