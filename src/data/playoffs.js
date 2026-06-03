@@ -529,6 +529,45 @@ export const conferenceFinalsSeries = [
   },
 ];
 
+export const nbaFinalsSeries = [
+  {
+    id: "sas-nyk",
+    conference: "final",
+    label: "SAS-NYK",
+    status: "Game 1, Series tied 0-0",
+    line: "TBD",
+    date: "TBD",
+    channel: "TBD",
+    teams: [
+      {
+        code: "SAS",
+        seed: 2,
+        city: "San Antonio",
+        name: "Spurs",
+        logo: spursLogo,
+      },
+      {
+        code: "NYK",
+        seed: 3,
+        city: "New York",
+        name: "Knicks",
+        logo: knicksLogo,
+      },
+    ],
+    picks: {
+      calde: { winner: "SAS", games: 6 },
+      brais: { winner: "NYK", games: 6 },
+      isi: { winner: "SAS", games: 7 },
+      "nico-grande": { winner: "NYK", games: 6 },
+      "nico-peque": { winner: "SAS", games: 5 },
+      lucas: { winner: "SAS", games: 6 },
+      alvaro: { winner: "NYK", games: 7 },
+      rodri: { winner: "NYK", games: 5 },
+      jorge: { winner: "SAS", games: 6 },
+    },
+  },
+];
+
 export const playoffRounds = [
   {
     id: "round1",
@@ -556,6 +595,6 @@ export const playoffRounds = [
     label: "NBA Finals",
     shortLabel: "Final",
     scoring: scoringRules.nbaFinals,
-    series: [],
+    series: nbaFinalsSeries,
   },
 ];

@@ -163,8 +163,33 @@ function FirstRoundColumn({ series, side }) {
   );
 }
 
+function ChampionshipCard({ series }) {
+  return (
+    <article className="championship-card">
+      <h2>NBA Finals</h2>
+      {series ? (
+        <>
+          <div className="championship-status">{series.status}</div>
+          <div className="championship-teams">
+            <TeamRow team={series.teams[0]} />
+            <TeamRow team={series.teams[1]} />
+          </div>
+        </>
+      ) : (
+        <div className="championship-matchup">
+          <span className="shield-slot large" />
+          <span>TBD</span>
+          <span>TBD</span>
+          <span className="shield-slot large" />
+        </div>
+      )}
+    </article>
+  );
+}
+
 function PlayoffBracket({
   conferenceFinalsSeries,
+  nbaFinalsSeries,
   firstRoundSeries,
   secondRoundSeries,
 }) {
@@ -182,6 +207,7 @@ function PlayoffBracket({
   const eastConferenceFinals = conferenceFinalsSeries.filter(
     (item) => item.conference === "east"
   );
+  const nbaFinals = nbaFinalsSeries[0];
 
   return (
     <section className="bracket-section" aria-labelledby="bracket-title">
@@ -227,15 +253,7 @@ function PlayoffBracket({
             )}
           </div>
 
-          <article className="championship-card">
-            <h2>Championship</h2>
-            <div className="championship-matchup">
-              <span className="shield-slot large" />
-              <span>TBD</span>
-              <span>TBD</span>
-              <span className="shield-slot large" />
-            </div>
-          </article>
+          <ChampionshipCard series={nbaFinals} />
 
           <div className="round-column conference-column east">
             {eastConferenceFinals.length > 0 ? (
@@ -485,6 +503,7 @@ function App() {
   const conferenceFinals = roundsWithLiveSeries.find(
     (round) => round.id === "conferenceFinals"
   );
+  const nbaFinals = roundsWithLiveSeries.find((round) => round.id === "nbaFinals");
   const selectedRound = roundsWithLiveSeries.find(
     (round) => round.id === activeRound
   );
@@ -613,6 +632,7 @@ function App() {
       <PlayoffBracket
         conferenceFinalsSeries={conferenceFinals?.series ?? []}
         firstRoundSeries={firstRound?.series ?? []}
+        nbaFinalsSeries={nbaFinals?.series ?? []}
         secondRoundSeries={secondRound?.series ?? []}
       />
       <Standings standings={standings} liveStatus={liveStatus} />
